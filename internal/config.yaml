@@ -1,0 +1,18 @@
+server:
+  listen_port: 8000
+
+targets:
+  - host_name: "server1"
+    host_url: "https://localhost:9001"
+    capacity: "30"
+    consumption_rate: "0"
+  
+  - host_name: server2
+    host_url: https://localhost:9002
+    capacity: "30"
+    consumption_rate: "0"
+  
+  - host_name: server3
+    host_url: https://localhost:9003
+    capacity: "30"
+    consumption_rate: "0"
