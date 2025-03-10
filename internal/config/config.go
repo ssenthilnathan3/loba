@@ -1,6 +1,8 @@
 package config
 
 import (
+	"crypto/sha256"
+	"encoding/binary"
 	"fmt"
 	"strings"
 
@@ -12,6 +14,7 @@ type Target struct {
 	Host_url         string
 	Capacity         string
 	Consumption_rate string
+	Hash             string
 }
 
 type Configuration struct {
@@ -22,6 +25,21 @@ type Configuration struct {
 }
 
 var configuration *Configuration
+
+func Hash(url string) (uint32, error) {
+	hostURL := strings.Split(strings.SplitAfter(`//`, url)[1], ":")[0]
+	if hostURL == "" {
+		return 0, fmt.Errorf("error reading host url %s", "")
+	}
+
+	h := sha256.New()
+
+	h.Write([]byte(hostURL))
+
+	hashedURL := h.Sum(nil)
+
+	return binary.BigEndian.Uint32(hashedURL[:4]), nil
+}
 
 func NewConfiguration() (*Configuration, error) {
 	viper.AddConfigPath("internal")
